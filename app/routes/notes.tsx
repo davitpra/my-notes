@@ -1,8 +1,13 @@
+import NewNote, {links as NewNoteLinks} from '../components/NewNote'
 
 export default function notes() {
   return (
     <main>
-        <h1> My Notes</h1>
+        <NewNote/>
     </main>
   )
 }
+
+export function links() {
+    return [...NewNoteLinks()];
+  }
