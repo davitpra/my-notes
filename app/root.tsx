@@ -9,7 +9,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  isRouteErrorResponse,
   useCatch,
+  useRouteError,
 } from "@remix-run/react";
 import MainNavigation from "./components/MainNavigation";
 
@@ -17,7 +19,21 @@ export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : [{ rel: "stylesheet", href: styles }]),
 ];
 
-export function ErrorBoundary({error}) {
+export function ErrorBoundary() {
+
+  const error = useRouteError()
+
+    // when true, this is what used to go to `CatchBoundary`
+    if (isRouteErrorResponse(error)) {
+      return (
+        <div>
+          <h1>Oops</h1>
+          <p>Status: {error.status}</p>
+          <p>{error.data.message}</p>
+        </div>
+      );
+    }
+  
   return (
     <html lang="en">
     <head>
@@ -33,7 +49,7 @@ export function ErrorBoundary({error}) {
       </header>
       <main className = 'error'>
         <h1> An Error Ocurred! </h1>
-        <p> {error.message}</p>
+        <p> Something go wrong</p>
         <p> Back to <Link to='/' > safety</Link>! </p>
       </main>
       <Outlet />
@@ -60,12 +76,7 @@ export function CatchBoundary () {
       <header>
         <MainNavigation />
       </header>
-      <main className = 'error'>
-        <h1> An Error Ocurred! </h1>
-        <p> {caughtResponse.statusText}</p>
-        <p> {caughtResponse.data?.message || 'Something went wrong!'}</p>
-        <p> Back to <Link to='/' > safety</Link>! </p>
-      </main>
+
       <Outlet />
       <ScrollRestoration />
       <Scripts />

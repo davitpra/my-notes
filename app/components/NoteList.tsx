@@ -12,7 +12,7 @@ function NoteList({notes}) {
     <ul id="note-list">
       {notes.map((note : note, index: number) => (
         <li key={note.id} className="note">
-          <Link to={note.id}>
+          <Link to={"/"+ note.id}>
             <article>
               <header>
                 <ul className="note-meta">
