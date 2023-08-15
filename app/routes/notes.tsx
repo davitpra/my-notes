@@ -15,7 +15,11 @@ export async function action({request}) {
         title: formData.get('title'),
         content: formData.get('content')
     }
-    // Add Validation
+
+    if (noteData.title.trim().length < 5) {
+      return { message: 'Invalid title - must be at least 5 characters long.'}
+    }
+
     const existingNotes = await getStoredNotes()
     noteData.id =  new Date().toISOString();
     const updatedNotes = existingNotes.concat(noteData)
@@ -28,7 +32,9 @@ export function links() {
   }
 
 export default function notes() {
+
   const notes = useLoaderData ()
+
   return (
     <main>
         <NewNote/>
