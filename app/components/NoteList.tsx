@@ -7,7 +7,7 @@ type note = {
     content: string
 }
 
-function NoteList({notes}) {
+function NoteList({notes} ) {
   return (
     <ul id="note-list">
       {notes.map((note : note, index: number) => (
